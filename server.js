@@ -103,23 +103,24 @@ app.get("/article/:id", function(req, res){
 
 //push note
 app.post("/article/:id", function(req, res){
-	// var note = req.body;
-	// console.log(note);
-	// Note.create(note, function(err, note){
-	// 	// Article.findOneAndUpdate({"_id": req.params.id},{$set:{'note': note._id}})
-	// 	Article.findOneAndUpdate({"_id": req.params.id},{$set:{'note': note._id}} ,function(){});
-	// })
-
-	var new_note = req.body;
-	console.log(new_note)
-	
-	Note.create(new_note, function(err, note){
-		console.log(note);
-		Article.findOneAndUpdate({"_id": req.params.id},{$set:{'note': note._id}} ,function(){
-			
-		
-		});
+	var note = req.body;
+	console.log(note);
+	Note.create(note, function(err, note){
+		// Article.findOneAndUpdate({"_id": req.params.id},{$set:{'note': note._id}})
+		Article.findOneAndUpdate({"_id": req.params.id},{$set:{'note': note._id}} ,function(){});
 	})
+	// console.log("id is",req.params.id);
+	// var new_note = req.body;
+	// console.log(new_note)
+	
+	// Note.create(new_note, function(err, note){
+	// 	console.log("note should be",note);
+	// 	Article.findOneAndUpdate({"_id": req.params.id},{$set:{'note': note._id}} ,function(err, docs){
+	// 		console.log(docs)
+	// 		console.log(err)
+		
+	// 	});
+	// })
 })
 
 
