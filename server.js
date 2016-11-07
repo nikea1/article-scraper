@@ -86,23 +86,39 @@ app.get("/article", function(req, res){
 app.get("/article/:id", function(req, res){
 	var articleId = req.params.id;
 
-	Article.findOne({where:{_id:articleId}})
+	Article.findOne({_id:articleId})
 		.populate("note")
 		.exec(function(err, docs){
-			if(err)
+			if(err){
+				console.log('err')
 				res.send(err)
-			else
+			}
+			else{
+				console.log('docs')
 				res.send(docs)
+			}
 		})
 
 })
 
 //push note
 app.post("/article/:id", function(req, res){
-	var note = req.body;
-	console.log(note);
-	Note.create(note, function(err, note){
-		Article.findOneAndUpdate({"_id": req.params.id},{$set:{'note': note._id}})
+	// var note = req.body;
+	// console.log(note);
+	// Note.create(note, function(err, note){
+	// 	// Article.findOneAndUpdate({"_id": req.params.id},{$set:{'note': note._id}})
+	// 	Article.findOneAndUpdate({"_id": req.params.id},{$set:{'note': note._id}} ,function(){});
+	// })
+
+	var new_note = req.body;
+	console.log(new_note)
+	
+	Note.create(new_note, function(err, note){
+		console.log(note);
+		Article.findOneAndUpdate({"_id": req.params.id},{$set:{'note': note._id}} ,function(){
+			
+		
+		});
 	})
 })
 
