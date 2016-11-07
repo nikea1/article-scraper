@@ -1,3 +1,4 @@
+//get all articles
 $.ajax({url:'/article', method:'GET'})
 	.done(function(results){
 		// console.log(results);
@@ -11,10 +12,4 @@ $.ajax({url:'/article', method:'GET'})
 		
 	})
 
-$(document.body).on('click','.article', function(){
-	
-	$('#articleTitleNote').text($(this).children('h2.articleTitle').text())
-	console.log($(this).data('id'));
-
-})
 

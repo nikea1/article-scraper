@@ -16,9 +16,10 @@
 			<form action="/new_note" method="POST">
 				<div id="comments" class="form-group">
 					<label id="articleTitleNote"></label>
-					<input type="text" class="form-control" name="noteTitle" />
-					<textarea class="form-control" name="noteBody"></textarea>
-					<input type="submit" value="Add New Note">
+					<input id="noteTitle" type="text" class="form-control" name="noteTitle" />
+					<textarea id="noteBody" class="form-control" name="noteBody"></textarea>
+					<input id="articleId" type="hidden" name="articleId" value="">
+					<input id="submitNote" type="submit" value="Add New Note">
 				</div>
 			</form>
 		</div>

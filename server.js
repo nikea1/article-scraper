@@ -71,9 +71,6 @@ app.get("/scrape", function(req, res){
 	res.send("Scrape Complete");
 })
 
-app.get("/note", function(req, res){
-
-})
 
 //get all articles in database
 app.get("/article", function(req, res){
@@ -85,16 +82,30 @@ app.get("/article", function(req, res){
 	})
 })
 
+//get article in database
+app.get("/article/:id", function(req, res){
+	var articleId = req.params.id;
+
+	Article.findOne({where:{_id:articleId}})
+		.populate("note")
+		.exec(function(err, docs){
+			if(err)
+				res.send(err)
+			else
+				res.send(docs)
+		})
+
+})
+
 //push note
-app.post("/new_note", function(req, res){
+app.post("/article/:id", function(req, res){
 	var note = req.body;
 	console.log(note);
-	res.redirect("/")
+	Note.create(note, function(err, note){
+		Article.findOneAndUpdate({"_id": req.params.id},{$set:{'note': note._id}})
+	})
 })
 
-app.delete("/delete", function(req, res){
-
-})
 
 app.use("/", function(req,res){})
 
