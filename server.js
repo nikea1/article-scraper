@@ -41,7 +41,7 @@ app.get("/scrape", function(req, res){
 	request('http://www.echojs.com/' ,function(error, response, html){
 		var $ = cheerio.load(html)
 
-		console.log(html);
+		// console.log(html);
 
 		$('article h2').each(function(i, element){
 			// save an empty result object
@@ -57,9 +57,13 @@ app.get("/scrape", function(req, res){
 
 				var article = new Article(result)
 
+				// console.log(article)
+
+				
+				
 				article.save(function(err, docs){
-					if(err)
-						console.log(err);
+					if(err && (11000 === err.code || 11001 === err.code))
+						console.log("Duplicate Found");
 					else
 						console.log(docs);
 				})
