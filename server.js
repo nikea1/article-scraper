@@ -72,7 +72,8 @@ app.get("/scrape", function(req, res){
 
 	})
 
-	res.send("Scrape Complete");
+	// res.send("Scrape Complete");
+	res.redirect("/")
 })
 
 
@@ -111,7 +112,11 @@ app.post("/article/:id", function(req, res){
 	console.log(note);
 	Note.create(note, function(err, note){
 
-		Article.findOneAndUpdate({"_id": req.params.id},{$push:{'note': note._id}} ,function(){});
+		Article.findOneAndUpdate({"_id": req.params.id},{$push:{'note': note._id}} ,function(err){
+			if(err) res.send({result:false})
+
+			res.send(note);
+		});
 	})
 	
 })
