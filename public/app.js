@@ -15,10 +15,12 @@ $.ajax({url:'/article', method:'GET'})
 // alert("yep it's what you think")
 
 $(document.body).on('click', '.article', function(){
-	$('.comments').show();
+	$('.comments').show()
 	// console.log($(this).data('id'))
 	$('#submitNote').attr('data-id', $(this).data('id'))
+	
 	$('#notes').empty().attr('data-artid', $(this).data('id')).append('<option/>')
+	
 	console.log($('#submitNote').data('id'))
 	$.ajax(
 		{
@@ -55,10 +57,10 @@ $(document.body).on('click', '#submitNote', function(){
 
 	
 	if($(this).data('id') == ""){
-		console.log(typeof($(this).data('id')));
-		console.log($('#noteTitle').val())
-		console.log($('#noteBody').val())
-		console.log("no note")
+		// console.log(typeof($(this).data('id')));
+		// console.log($('#noteTitle').val())
+		// console.log($('#noteBody').val())
+		// console.log("no note")
 		return false;
 	}
 
@@ -77,5 +79,23 @@ $(document.body).on('click', '#submitNote', function(){
 	$('#noteTitle').val("")
 	$('#noteBody').val("")
 
+})
+
+$(document.body).on('click', '#deleteNote', function(){
+
+	console.log($('#notes').data('artid'))
+	console.log($('#notes option:selected').data('noteid'))
+
+	if($('#notes option:selected').text() == "")
+		return false;
+
+	var artId = $('#notes').data('artid')
+	var noteId = $('#notes option:selected').data('noteid')
+	$.ajax({
+		url:'/article/'+artId+'/'+noteId,
+		method:'DELETE'
+	}).done(function(results){
+		console.log(results)
+	})
 })
 

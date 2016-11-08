@@ -112,6 +112,12 @@ app.post("/article/:id", function(req, res){
 	
 })
 
+app.delete("/article/:articleid/:noteid", function(req, res){
+	Article.findOneAndUpdate({"_id": req.params.articleid}, {$pull:{'note':req.params.noteid}}, function(){
+		Note.findOne({"_id": req.params.noteid}).remove().exec()
+	})
+})
+
 
 app.use("/", function(req,res){})
 
