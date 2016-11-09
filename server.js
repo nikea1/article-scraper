@@ -37,23 +37,21 @@ var Article = require('./models/Article.js');
 //scrape articles
 app.get("/scrape", function(req, res){
 
-	//TODO: Pick another site after fuctions are working
-	request('http://www.echojs.com/' ,function(error, response, html){
+
+	request('http://spectrum.ieee.org/' ,function(error, response, html){
 		var $ = cheerio.load(html)
 
-		// console.log(html);
+		 // console.log(html);
 
-		$('article h2').each(function(i, element){
+		$('article').each(function(i, element){
 			// save an empty result object
 			var result = {};
-
+			var path = $(this).children('a').attr('href')
+			
 			// add the text and href of every link, 
 			// and save them as properties of the result obj
-			result.title = $(this).children('a').text();
-			result.link = $(this).children('a').attr('href');
-
-			console.log(result.title);
-			console.log(result.link);
+			result.title = $(this).children('a').children('h3').text();
+			result.link = 'http://spectrum.ieee.org'+path
 
 			//create new article model
 			var article = new Article(result)
@@ -67,6 +65,7 @@ app.get("/scrape", function(req, res){
 			})
 		})
 	})
+
 	//redirects to home page
 	res.send({result:true})
 })
