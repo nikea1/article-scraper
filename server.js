@@ -17,7 +17,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.text());
 app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 
-mongoose.connect("mongodb://localhost/week18hw");
+// mongoose.connect("mongodb://localhost/week18hw");
+mongoose.connect("mongodb://heroku_mwjgtfrn:f5d9mqtu7t5j0qfgup1uakmbmg@ds021650.mlab.com:21650/heroku_mwjgtfrn")
 var db = mongoose.connection;
 
 // show any mongoose errors
