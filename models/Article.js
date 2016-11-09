@@ -7,11 +7,13 @@ var articleSchema = new Schema({
 		type:String,
 		required:true
 	},
+	//article links should be unique
 	link:{
 		type:String,
 		required:true,
 		unique:true
 	},
+	//one to many
 	note:[{
 		type: Schema.Types.ObjectId,
 		ref: 'Note'

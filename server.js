@@ -45,35 +45,30 @@ app.get("/scrape", function(req, res){
 
 		$('article h2').each(function(i, element){
 			// save an empty result object
-				var result = {};
+			var result = {};
 
-				// add the text and href of every link, 
-				// and save them as properties of the result obj
-				result.title = $(this).children('a').text();
-				result.link = $(this).children('a').attr('href');
+			// add the text and href of every link, 
+			// and save them as properties of the result obj
+			result.title = $(this).children('a').text();
+			result.link = $(this).children('a').attr('href');
 
-				console.log(result.title);
-				console.log(result.link);
+			console.log(result.title);
+			console.log(result.link);
 
-				var article = new Article(result)
+			//create new article model
+			var article = new Article(result)
 
-				// console.log(article)
-
-				
-				
-				article.save(function(err, docs){
-					if(err && (11000 === err.code || 11001 === err.code))
-						console.log("Duplicate Found");
-					else
-						console.log(docs);
-				})
-		});
-
-
+			//saves if unique
+			article.save(function(err, docs){
+				if(err && (11000 === err.code || 11001 === err.code))
+					console.log("Duplicate Found");
+				else
+					console.log(docs);
+			})
+		})
 	})
-
-	// res.send("Scrape Complete");
-	res.redirect("/")
+	//redirects to home page
+	res.send({result:true})
 })
 
 
@@ -92,18 +87,17 @@ app.get("/article/:id", function(req, res){
 	var articleId = req.params.id;
 
 	Article.findOne({_id:articleId})
-		.populate("note")
-		.exec(function(err, docs){
-			if(err){
-				console.log('err')
-				res.send(err)
-			}
-			else{
-				console.log('docs')
-				res.send(docs)
-			}
-		})
-
+	.populate("note")
+	.exec(function(err, docs){
+		if(err){
+			console.log('err')
+			res.send(err)
+		}
+		else{
+			console.log('docs')
+			res.send(docs)
+		}
+	})
 })
 
 //push note
@@ -121,6 +115,7 @@ app.post("/article/:id", function(req, res){
 	
 })
 
+//deletes note
 app.delete("/article/:articleid/:noteid", function(req, res){
 	Article.findOneAndUpdate({"_id": req.params.articleid}, {$pull:{'note':req.params.noteid}}, function(){
 		Note.findOne({"_id": req.params.noteid}).remove().exec()
@@ -128,9 +123,10 @@ app.delete("/article/:articleid/:noteid", function(req, res){
 })
 
 
+//go to index
 app.use("/", function(req,res){})
 
-
+//run server
 app.listen(port, function(){
 	console.log("Im running on port", port);
 })

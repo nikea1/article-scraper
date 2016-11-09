@@ -1,14 +1,16 @@
-//get all articles and display
-$.ajax({url:'/article', method:'GET'})
-.done(function(results){
-	//loops through results and creates DOM object out of them
-	results.forEach(function(article){
-		var div = $('<div>').addClass('article').attr('data-id', article._id).appendTo('#articles')
-		var title = $('<h2>').addClass('articleTitle').text(article.title).appendTo(div)
-		var link = $('<p>').addClass('articleLink').text(article.link).css('font-style', 'italic').appendTo(div)
-	})		
+//start scrape.
+$.ajax({url:'/scrape', method:'GET'}).done(function(){
+	//get all articles and display
+	$.ajax({url:'/article', method:'GET'})
+	.done(function(results){
+		//loops through results and creates DOM object out of them
+		results.forEach(function(article){
+			var div = $('<div>').addClass('article').attr('data-id', article._id).appendTo('#articles')
+			var title = $('<h2>').addClass('articleTitle').text(article.title).appendTo(div)
+			var link = $('<p>').addClass('articleLink').text(article.link).css('font-style', 'italic').appendTo(div)
+		})		
+	})
 })
-
 
 //handler for when article it clicked
 $(document.body).on('click', '.article', function(){
